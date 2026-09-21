@@ -1,3 +1,10 @@
+const products=[
+ {id:1,name:'MacBook Air M1',price:49000,cat:'Laptops',icon:'💻',meta:'2.1 km · Like new',verified:true},
+ {id:2,name:'Engineering Book Bundle',price:1200,cat:'Books',icon:'📚',meta:'0.8 km · Good condition',verified:true},
+ {id:3,name:'Mountain Bicycle',price:6500,cat:'Bicycles',icon:'🚲',meta:'1.4 km · Used',verified:true},
+ {id:4,name:'Hostel Study Table',price:1800,cat:'Furniture',icon:'🪑',meta:'1.0 km · Good condition',verified:false},
+ {id:5,name:'Wireless Headphones',price:2200,cat:'Electronics',icon:'🎧',meta:'2.8 km · Like new',verified:true},
+ {id:6,name:'Scientific Calculator',price:750,cat:'Study Materials',icon:'🧮',meta:'0.6 km · Good condition',verified:true},
  {id:7,name:'Gaming Keyboard',price:1800,cat:'Gaming',icon:'⌨️',meta:'3.0 km · Like new',verified:false},
  {id:8,name:'Hostel Mini Fridge',price:3500,cat:'Hostel Items',icon:'🧊',meta:'1.7 km · Used',verified:true}
 ];
