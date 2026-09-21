@@ -3,237 +3,181 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>UNI LOOP — Next-Gen Campus Marketplace</title>
+  <title>UNI LOOP — Aesthetic Campus Marketplace</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- TOPBAR -->
+  <!-- TOP NAVIGATION BAR -->
   <header class="topbar">
     <div class="container nav-wrapper">
       <a class="brand" href="#home">
-        <span class="logo"><i></i><b></b></span>
+        <span class="brand-orb">⚡</span>
         <span>UNI <em>LOOP</em></span>
       </a>
 
-      <!-- CAMPUS / HOSTEL PICKER -->
-      <div class="campus-picker">
+      <!-- CAMPUS LOCATION PILL -->
+      <div class="campus-selector">
         <span>📍</span>
         <select id="campusSelect">
-          <option value="all">Lovely Professional University (All)</option>
+          <option value="all">LPU Main Campus (All Zones)</option>
           <option value="BH-1">Boys Hostel 1 & 2</option>
           <option value="BH-4">Boys Hostel 4 & 5</option>
           <option value="BH-7">Boys Hostel 7 & 8</option>
           <option value="GH">Girls Hostels (GH-1 to GH-6)</option>
-          <option value="UniMall">Uni-Mall / Central Plaza</option>
-          <option value="Block34">Block 34 / Academic Block</option>
-          <option value="MainGate">Campus Main Gate</option>
+          <option value="UniMall">Uni-Mall Central Plaza</option>
+          <option value="Block34">Block 34 / Academic</option>
         </select>
       </div>
 
-      <!-- DESKTOP NAV -->
-      <nav class="nav-links">
-        <a href="#explore" class="active">Explore</a>
-        <a href="#categories">Categories</a>
-        <a href="#how">How It Works</a>
-      </nav>
-
-      <!-- TOP ACTIONS -->
+      <!-- RIGHT ACTIONS -->
       <div class="nav-actions">
-        <!-- THEME TOGGLE -->
-        <button class="icon-btn" id="themeToggle" title="Toggle Dark/Light Mode">🌙</button>
-        
-        <!-- NOTIFICATIONS -->
-        <button class="icon-btn" id="notifBtn" title="Notifications">
-          🔔
-          <span class="badge-count" id="notifCount">2</span>
-        </button>
-
-        <!-- WISHLIST -->
-        <button class="icon-btn" id="wishlistBtn" title="Saved Items">
+        <button class="icon-btn" id="themeToggle" title="Dark / Light Mode">🌙</button>
+        <button class="icon-btn" id="wishlistBtn" title="Saved Wishlist">
           ♡
           <span class="badge-count" id="wishCount">0</span>
         </button>
-
-        <!-- POST LISTING -->
-        <button class="btn btn-primary" id="sellTopBtn">+ Sell an item</button>
+        <button class="btn btn-gold" id="sellTopBtn">+ Post Item</button>
       </div>
     </div>
   </header>
 
-  <!-- NOTIFICATION DROPDOWN POPUP -->
-  <div class="notif-popup" id="notifPopup">
-    <div style="font-weight: 800; margin-bottom: 8px; font-size: 14px;">Campus Updates</div>
-    <div class="notif-item">
-      <b>💰 New Offer Received</b>
-      <span>Someone offered ₹44,000 for your MacBook Air.</span>
-    </div>
-    <div class="notif-item">
-      <b>📉 Price Drop Alert</b>
-      <span>Engineering Book Bundle dropped to ₹1,000 in BH-4.</span>
-    </div>
-    <div class="notif-item">
-      <b>🛡️ Student Verified</b>
-      <span>Your student ID has been approved for badge.</span>
-    </div>
-  </div>
+  <main class="container">
+    <!-- CAMPUS STORIES / HOT DROPS BAR -->
+    <section class="stories-bar" id="storiesBar">
+      <div class="story-node" onclick="filterByTag('urgent')">
+        <div class="story-ring"><div class="story-avatar">⚡</div></div>
+        <span class="story-label">Hot Deals</span>
+      </div>
+      <div class="story-node" onclick="filterByTag('verified')">
+        <div class="story-ring"><div class="story-avatar">🛡️</div></div>
+        <span class="story-label">Verified</span>
+      </div>
+      <div class="story-node" onclick="selectCat('Laptops')">
+        <div class="story-ring"><div class="story-avatar">💻</div></div>
+        <span class="story-label">Laptops</span>
+      </div>
+      <div class="story-node" onclick="selectCat('Bicycles')">
+        <div class="story-ring"><div class="story-avatar">🚲</div></div>
+        <span class="story-label">Cycles</span>
+      </div>
+      <div class="story-node" onclick="selectCat('Books')">
+        <div class="story-ring"><div class="story-avatar">📚</div></div>
+        <span class="story-label">Books</span>
+      </div>
+      <div class="story-node" onclick="selectCat('Hostel Gear')">
+        <div class="story-ring"><div class="story-avatar">🛏️</div></div>
+        <span class="story-label">Hostel Gear</span>
+      </div>
+    </section>
 
-  <main>
     <!-- HERO SECTION -->
     <section id="home" class="hero">
-      <div class="container hero-grid">
+      <div class="hero-grid">
         <div>
-          <span class="eyebrow">🎓 Trusted Campus Marketplace</span>
-          <h1>Buy. Sell. Connect.<br><span>Around Your Campus.</span></h1>
-          <p class="lead">Safe, verified student-to-student marketplace. Find study gear, gadgets, bicycles, and hostel furniture within 1 km radius.</p>
+          <div class="live-pill">
+            <span class="pulse-dot"></span>
+            <span>Over 140+ active trades happening now</span>
+          </div>
+          <h1>The Campus Loop for <span>Modern Students.</span></h1>
+          <p class="hero-desc">Sell pre-loved gear, pick up semester notes, find hostel essentials and chat directly with verified peers within walking distance.</p>
           
-          <div class="search-box">
-            <input id="heroSearch" placeholder="Search laptops, books, cycles, coolers, lab coats..."/>
-            <button class="btn btn-gold" id="heroSearchBtn">Search</button>
+          <!-- SEARCH BOX -->
+          <div class="aesthetic-search">
+            <input id="heroSearch" placeholder="Search MacBooks, bicycles, calculators, lab coats..."/>
+            <button class="btn btn-gold" id="heroSearchBtn">Explore</button>
           </div>
 
-          <div class="stats-banner">
-            <div class="stat-item">
-              <b>2,400+</b>
-              <span>Active Students</span>
-            </div>
-            <div class="stat-item">
-              <b>₹0</b>
-              <span>Platform Fee</span>
-            </div>
-            <div class="stat-item">
-              <b>100%</b>
-              <span>Campus Handover</span>
-            </div>
+          <!-- QUICK TAGS -->
+          <div class="quick-tags">
+            <span class="tag-label">Trending:</span>
+            <span class="tag-chip" onclick="quickSearch('MacBook')">💻 MacBook M1</span>
+            <span class="tag-chip" onclick="quickSearch('Calculator')">🧮 Casio 991EX</span>
+            <span class="tag-chip" onclick="quickSearch('Bicycle')">🚲 Montra Cycle</span>
+            <span class="tag-chip" onclick="quickSearch('Books')">📚 Gate CS</span>
           </div>
         </div>
 
-        <div class="hero-card">
-          <div class="pulse-circle"></div>
-          <div class="center-node">UL</div>
-          <div class="float-card fc-1">
-            <b>💻 MacBook Air M1</b>
-            <div style="color:var(--gold); font-weight:800">₹49,000</div>
-            <small style="color:var(--muted)">BH-4 · Like New</small>
+        <!-- 3D GLASS FLOATING HERO GRAPHIC -->
+        <div class="hero-visual">
+          <div class="ambient-glow"></div>
+          
+          <div class="glass-widget gw-1">
+            <span style="font-size: 24px;">💻</span>
+            <div>
+              <b style="font-size: 13px;">MacBook Air M1</b>
+              <div style="font-size: 11px; color: var(--accent-gold); font-weight: 800;">₹49,000 · BH-4</div>
+            </div>
           </div>
-          <div class="float-card fc-2">
-            <b>🚲 Montra Bicycle</b>
-            <div style="color:var(--gold); font-weight:800">₹6,200</div>
-            <small style="color:var(--muted)">Uni-Mall · Instant Handover</small>
+
+          <div class="glass-widget gw-2">
+            <span style="font-size: 24px;">🚲</span>
+            <div>
+              <b style="font-size: 13px;">Montra 21-Speed</b>
+              <div style="font-size: 11px; color: var(--accent-green); font-weight: 800;">Instant Handover</div>
+            </div>
           </div>
-          <div class="float-card fc-3">
-            <b>📚 Gate CS Books</b>
-            <div style="color:var(--gold); font-weight:800">₹850</div>
-            <small style="color:var(--green)">✓ Verified Student</small>
+
+          <div class="glass-widget gw-3">
+            <span style="font-size: 24px;">🛡️</span>
+            <div>
+              <b style="font-size: 13px;">100% Student Verified</b>
+              <div style="font-size: 11px; color: var(--ink-muted);">Zero Scam Zone</div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- CATEGORIES -->
-    <section id="categories" class="section">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <span class="eyebrow">EXPLORE BY</span>
-            <h2>Top Campus Categories</h2>
-          </div>
-        </div>
-        <div class="cat-scroll" id="catScroll"></div>
-      </div>
-    </section>
+    <div class="category-row" id="catRow"></div>
 
-    <!-- LISTINGS & ADVANCED FILTERS -->
-    <section id="explore" class="section alt">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <span class="eyebrow">LIVE LISTINGS</span>
-            <h2>Find What You Need</h2>
-          </div>
-          <div style="display:flex; gap:8px;">
-            <button class="btn btn-outline" id="viewAllListings">Show All</button>
-          </div>
-        </div>
-
-        <!-- FILTER BAR -->
-        <div class="filter-bar">
-          <input id="mainSearch" placeholder="Search by name, tags, or brand...">
-          <select id="filterCondition">
+    <!-- MAIN PRODUCT EXPLORE -->
+    <section id="explore">
+      <!-- FILTERS ROW -->
+      <div class="aesthetic-filters">
+        <div class="filter-group">
+          <select class="filter-select" id="filterCondition">
             <option value="all">All Conditions</option>
-            <option value="Brand New">Brand New</option>
             <option value="Like New">Like New</option>
-            <option value="Good">Good Condition</option>
+            <option value="Good">Good</option>
             <option value="Used">Used</option>
           </select>
-          <select id="filterVerified">
-            <option value="all">All Sellers</option>
-            <option value="verified">✓ Verified Students Only</option>
-            <option value="urgent">⚡ Urgent Deals Only</option>
+          <select class="filter-select" id="filterSpecial">
+            <option value="all">All Listings</option>
+            <option value="verified">🛡️ Verified Students Only</option>
+            <option value="urgent">⚡ Urgent Handover</option>
           </select>
-          <select id="sortBy">
-            <option value="new">Sort: Newest First</option>
+          <select class="filter-select" id="sortBy">
+            <option value="new">Newest First</option>
             <option value="low">Price: Low to High</option>
             <option value="high">Price: High to Low</option>
             <option value="rating">Top Rated Sellers</option>
           </select>
-          <button class="btn btn-primary" id="resetFilters">Reset</button>
         </div>
-
-        <!-- PRODUCT GRID -->
-        <div class="product-grid" id="productGrid"></div>
+        <button class="btn btn-outline" id="resetBtn" style="padding: 6px 14px; font-size: 12px;">Reset</button>
       </div>
-    </section>
 
-    <!-- HOW IT WORKS -->
-    <section id="how" class="section">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <span class="eyebrow">TRUSTED TRADING</span>
-            <h2>How UNI LOOP Works</h2>
-          </div>
-        </div>
-        <div class="steps-grid">
-          <div class="step-card">
-            <div class="step-num">01</div>
-            <h3>Find Nearby Items</h3>
-            <p style="color:var(--muted); font-size:14px;">Browse items listed directly by fellow students in your hostel block or academic department.</p>
-          </div>
-          <div class="step-card">
-            <div class="step-num">02</div>
-            <h3>Make Offer & Chat</h3>
-            <p style="color:var(--muted); font-size:14px;">Use direct student chat or submit a quick counter-offer without sharing personal phone numbers.</p>
-          </div>
-          <div class="step-card">
-            <div class="step-num">03</div>
-            <h3>Meet & Inspect</h3>
-            <p style="color:var(--muted); font-size:14px;">Meet at safe campus landmarks like Uni-Mall, central libraries, or hostel turnstiles to inspect and pay.</p>
-          </div>
-        </div>
-      </div>
+      <!-- PRODUCT GRID -->
+      <div class="product-grid" id="productGrid"></div>
     </section>
   </main>
 
   <!-- MOBILE BOTTOM DOCK -->
-  <div class="mobile-nav">
-    <a class="dock-item active" href="#home"><span>🏠</span><span>Home</span></a>
-    <a class="dock-item" href="#explore"><span>🔍</span><span>Explore</span></a>
-    <div class="dock-item" id="dockSell"><span>➕</span><span>Sell</span></div>
-    <div class="dock-item" id="dockSaved"><span>♡</span><span>Saved</span></div>
-    <div class="dock-item" id="dockChat"><span>💬</span><span>Inbox</span></div>
+  <div class="mobile-dock">
+    <a class="dock-btn active" href="#home"><span>🏠</span><span>Home</span></a>
+    <a class="dock-btn" href="#explore"><span>🔍</span><span>Explore</span></a>
+    <div class="dock-btn" id="dockSell"><span>➕</span><span>Sell</span></div>
+    <div class="dock-btn" id="dockSaved"><span>♡</span><span>Saved</span></div>
   </div>
 
   <!-- TOAST CONTAINER -->
-  <div id="toastContainer"></div>
+  <div id="toastHost"></div>
 
-  <!-- GENERIC MODAL -->
-  <div class="modal-overlay" id="mainModal">
-    <div class="modal-window">
-      <button class="modal-close" id="modalClose">✕</button>
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-glass-card">
+      <button class="modal-close-btn" id="modalClose">✕</button>
       <div id="modalBody"></div>
     </div>
   </div>
