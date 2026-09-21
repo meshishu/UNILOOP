@@ -1,82 +1,82 @@
-/* --- STATE & MOCK DATA --- */
+/* --- STATE & DATA --- */
 const initialProducts = [
   {
     id: 1,
-    name: 'MacBook Air M1 (8GB / 256GB)',
-    price: 49000,
+    name: 'MacBook Air M1 (8GB / 256GB Space Grey)',
+    price: 48500,
     cat: 'Laptops',
     icon: '💻',
     condition: 'Like New',
     location: 'BH-4',
     verified: true,
     urgent: true,
-    seller: { name: 'Aman Sharma', rating: 4.9, branch: 'B.Tech CSE - 3rd Yr' },
-    desc: 'Battery health 91%. Comes with original MagSafe charger and protective case.'
+    seller: { name: 'Aman Sharma', rating: 4.9, branch: 'B.Tech CSE' },
+    desc: 'Battery health 91%. Comes with original MagSafe charger & sleeve.'
   },
   {
     id: 2,
-    name: 'Semester 4 Mech Engg Books Bundle',
-    price: 1100,
+    name: 'Semester 4 Mechanical Books + Handwritten Notes',
+    price: 950,
     cat: 'Books',
     icon: '📚',
     condition: 'Good',
     location: 'BH-1',
     verified: true,
     urgent: false,
-    seller: { name: 'Rohan Verma', rating: 4.8, branch: 'Mechanical - 4th Yr' },
-    desc: 'Includes SOM, Thermodynamics and Heat Transfer reference books with handwritten notes.'
+    seller: { name: 'Rohan Verma', rating: 4.8, branch: 'Mechanical' },
+    desc: 'Includes SOM, Thermo, and Heat Transfer reference books.'
   },
   {
     id: 3,
-    name: 'Hero Sprint Pro 21-Speed Gear Cycle',
-    price: 5800,
+    name: 'Montra Madrock 21-Speed Alloy Bicycle',
+    price: 6200,
     cat: 'Bicycles',
     icon: '🚲',
     condition: 'Good',
     location: 'UniMall',
     verified: true,
     urgent: true,
-    seller: { name: 'Kavita Singh', rating: 5.0, branch: 'B.Des - 2nd Yr' },
-    desc: 'Brand new tires fitted last month. Moving out of campus, urgent handover.'
+    seller: { name: 'Kavita Singh', rating: 5.0, branch: 'B.Des' },
+    desc: 'Front suspension, smooth Shimano shifters. Moving out of campus.'
   },
   {
     id: 4,
-    name: 'Wooden Hostel Study Table + Shelf',
-    price: 1600,
+    name: 'Engineered Wood Study Desk + Book Rack',
+    price: 1500,
     cat: 'Furniture',
     icon: '🪑',
     condition: 'Used',
     location: 'BH-7',
     verified: false,
     urgent: false,
-    seller: { name: 'Vikram Patel', rating: 4.5, branch: 'Civil Engg - 3rd Yr' },
-    desc: 'Solid engineered wood, spacious legroom and drawer. Pickup from BH-7 3rd floor.'
+    seller: { name: 'Vikram Patel', rating: 4.5, branch: 'Civil' },
+    desc: 'Solid build, spacious desk drawer. Handover at BH-7 turnstile.'
   },
   {
     id: 5,
-    name: 'Sony WH-1000XM4 Noise Cancelling Headphones',
-    price: 14500,
+    name: 'Sony WH-1000XM4 Active Noise Cancelling',
+    price: 13900,
     cat: 'Electronics',
     icon: '🎧',
     condition: 'Like New',
     location: 'Block34',
     verified: true,
     urgent: false,
-    seller: { name: 'Ananya Roy', rating: 4.9, branch: 'MBA - 1st Yr' },
-    desc: 'Barely used for 3 months with bill and original carry case.'
+    seller: { name: 'Ananya Roy', rating: 4.9, branch: 'MBA' },
+    desc: 'Used only in library. Complete box and bill available.'
   },
   {
     id: 6,
-    name: 'Casio fx-991EX Scientific Calculator',
-    price: 850,
+    name: 'Casio fx-991EX Classwiz Scientific Calculator',
+    price: 800,
     cat: 'Study Materials',
     icon: '🧮',
-    condition: 'Brand New',
+    condition: 'Like New',
     location: 'GH',
     verified: true,
     urgent: true,
-    seller: { name: 'Priya Mehta', rating: 4.7, branch: 'ECE - 2nd Yr' },
-    desc: 'Classwiz high-res display, allowed in all university semester exams.'
+    seller: { name: 'Priya Mehta', rating: 4.7, branch: 'ECE' },
+    desc: 'Allowed in semester exams, clean condition with slide case.'
   }
 ];
 
@@ -88,34 +88,32 @@ const categories = [
   { name: 'Electronics', icon: '🔌' },
   { name: 'Furniture', icon: '🪑' },
   { name: 'Study Materials', icon: '🧮' },
-  { name: 'Hostel Gear', icon: '🛏️' },
-  { name: 'Gaming', icon: '🎮' }
+  { name: 'Hostel Gear', icon: '🛏️' }
 ];
 
 let products = [...initialProducts];
-let activeCategory = 'All';
+let activeCat = 'All';
 let wishlist = new Set(JSON.parse(localStorage.getItem('uniloop_saved') || '[]'));
-let activeProductForModal = null;
+let activeModalProduct = null;
 
-/* --- DOM SELECTORS --- */
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => document.querySelectorAll(s);
 
-/* --- TOAST SYSTEM --- */
-function showToast(msg) {
-  const container = $('#toastContainer');
+/* --- TOAST NOTIFICATIONS --- */
+function showToast(text, icon = '✨') {
+  const host = $('#toastHost');
   const toast = document.createElement('div');
-  toast.className = 'toast';
-  toast.textContent = msg;
-  container.appendChild(toast);
-  setTimeout(() => toast.remove(), 3200);
+  toast.className = 'aesthetic-toast';
+  toast.innerHTML = `<span>${icon}</span><span>${text}</span>`;
+  host.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
 }
 
-/* --- THEME TOGGLER --- */
+/* --- THEME TOGGLE --- */
 function initTheme() {
-  const saved = localStorage.getItem('uniloop_theme') || 'light';
-  document.documentElement.setAttribute('data-theme', saved);
-  $('#themeToggle').textContent = saved === 'dark' ? '☀️' : '🌙';
+  const t = localStorage.getItem('uniloop_theme') || 'light';
+  document.documentElement.setAttribute('data-theme', t);
+  $('#themeToggle').textContent = t === 'dark' ? '☀️' : '🌙';
 }
 $('#themeToggle').onclick = () => {
   const current = document.documentElement.getAttribute('data-theme');
@@ -123,382 +121,332 @@ $('#themeToggle').onclick = () => {
   document.documentElement.setAttribute('data-theme', target);
   localStorage.setItem('uniloop_theme', target);
   $('#themeToggle').textContent = target === 'dark' ? '☀️' : '🌙';
-  showToast(`Switched to ${target} mode`);
+  showToast(`Switched to ${target} mode`, '🌓');
 };
 
-/* --- CATEGORY RENDER --- */
+/* --- RENDER CATEGORY PILLS --- */
 function renderCategories() {
-  const container = $('#catScroll');
-  container.innerHTML = categories.map(c => `
-    <div class="cat-item ${c.name === activeCategory ? 'active' : ''}" data-cat="${c.name}">
+  const row = $('#catRow');
+  row.innerHTML = categories.map(c => `
+    <div class="cat-pill ${c.name === activeCat ? 'active' : ''}" onclick="selectCat('${c.name}')">
       <span>${c.icon}</span>
       <span>${c.name}</span>
     </div>
   `).join('');
-
-  $$('.cat-item').forEach(el => {
-    el.onclick = () => {
-      activeCategory = el.dataset.cat;
-      renderCategories();
-      renderProducts();
-    };
-  });
 }
+window.selectCat = function(name) {
+  activeCat = name;
+  renderCategories();
+  renderProducts();
+};
 
-/* --- PRODUCT GRID RENDER --- */
+/* --- RENDER PRODUCT GRID --- */
 function renderProducts() {
-  const q = ($('#mainSearch').value || $('#heroSearch').value || '').toLowerCase();
+  const q = ($('#heroSearch').value || '').toLowerCase();
   const campus = $('#campusSelect').value;
   const condition = $('#filterCondition').value;
-  const verifyFilter = $('#filterVerified').value;
+  const special = $('#filterSpecial').value;
   const sort = $('#sortBy').value;
 
-  let filtered = products.filter(p => {
-    const matchesQuery = p.name.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q);
-    const matchesCat = activeCategory === 'All' || p.cat === activeCategory;
-    const matchesCampus = campus === 'all' || p.location === campus;
-    const matchesCondition = condition === 'all' || p.condition === condition;
+  let list = products.filter(p => {
+    const matchQuery = p.name.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q);
+    const matchCat = activeCat === 'All' || p.cat === activeCat;
+    const matchCampus = campus === 'all' || p.location === campus;
+    const matchCond = condition === 'all' || p.condition === condition;
     
-    let matchesSpecial = true;
-    if (verifyFilter === 'verified') matchesSpecial = p.verified;
-    if (verifyFilter === 'urgent') matchesSpecial = p.urgent;
+    let matchSpecial = true;
+    if (special === 'verified') matchSpecial = p.verified;
+    if (special === 'urgent') matchSpecial = p.urgent;
 
-    return matchesQuery && matchesCat && matchesCampus && matchesCondition && matchesSpecial;
+    return matchQuery && matchCat && matchCampus && matchCond && matchSpecial;
   });
 
-  // Sorting
-  if (sort === 'low') filtered.sort((a, b) => a.price - b.price);
-  if (sort === 'high') filtered.sort((a, b) => b.price - a.price);
-  if (sort === 'rating') filtered.sort((a, b) => b.seller.rating - a.seller.rating);
+  if (sort === 'low') list.sort((a, b) => a.price - b.price);
+  if (sort === 'high') list.sort((a, b) => b.price - a.price);
+  if (sort === 'rating') list.sort((a, b) => b.seller.rating - a.seller.rating);
 
   const grid = $('#productGrid');
-  if (filtered.length === 0) {
+  if (list.length === 0) {
     grid.innerHTML = `
-      <div style="grid-column: 1/-1; text-align: center; padding: 50px 20px; color: var(--muted);">
-        <p style="font-size: 36px; margin-bottom: 8px;">🔍</p>
-        <b>No campus listings match your current filters.</b>
-        <p style="font-size: 13px; margin-top: 4px;">Try switching your hostel/campus filter or search query.</p>
+      <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--ink-muted);">
+        <p style="font-size: 40px; margin-bottom: 12px;">🔍</p>
+        <b style="font-size: 16px; color: var(--ink);">No campus listings found</b>
+        <p style="font-size: 13px; margin-top: 4px;">Try tweaking your search or location filter.</p>
       </div>`;
     return;
   }
 
-  grid.innerHTML = filtered.map(p => `
+  grid.innerHTML = list.map(p => `
     <article class="product-card">
-      <div class="card-media">
+      <div class="card-img-wrap">
         ${p.img ? `<img src="${p.img}" alt="${p.name}"/>` : p.icon}
-        ${p.verified ? '<span class="badge-tag">✓ Student Verified</span>' : ''}
-        ${p.urgent ? '<span class="urgent-tag">⚡ Urgent</span>' : ''}
-        <button class="fav-btn ${wishlist.has(p.id) ? 'active' : ''}" data-fav="${p.id}">
+        ${p.verified ? '<span class="card-badge">✓ Student Verified</span>' : ''}
+        ${p.urgent ? '<span class="urgent-badge">⚡ Urgent</span>' : ''}
+        <button class="like-heart ${wishlist.has(p.id) ? 'active' : ''}" onclick="toggleWish(${p.id})">
           ${wishlist.has(p.id) ? '♥' : '♡'}
         </button>
       </div>
 
-      <div class="card-body">
-        <div class="card-price-row">
-          <span class="price-value">₹${p.price.toLocaleString('en-IN')}</span>
-          <span class="condition-pill">${p.condition}</span>
+      <div class="card-details">
+        <div class="price-row">
+          <span class="item-price">₹${p.price.toLocaleString('en-IN')}</span>
+          <span class="condition-tag">${p.condition}</span>
         </div>
 
-        <div class="card-title">${p.name}</div>
-        
-        <div class="card-seller">
-          <span class="seller-avatar">${p.seller.name[0]}</span>
+        <h3 class="item-title">${p.name}</h3>
+
+        <div class="seller-row">
+          <span class="seller-glow-avatar">${p.seller.name[0]}</span>
           <span>${p.seller.name} · ⭐ ${p.seller.rating}</span>
         </div>
 
-        <div class="card-location">
+        <div class="item-location">
           <span>📍</span>
           <span>${p.location} (${p.seller.branch})</span>
         </div>
 
-        <div class="card-actions">
-          <button class="btn btn-outline" onclick="openOfferModal(${p.id})">Make Offer</button>
-          <button class="btn btn-gold" onclick="openChatModal(${p.id})">Chat</button>
+        <div class="card-cta-group">
+          <button class="btn btn-outline" onclick="openOfferModal(${p.id})">⚡ Quick Offer</button>
+          <button class="btn btn-gold" onclick="openChatModal(${p.id})">💬 Chat</button>
         </div>
       </div>
     </article>
   `).join('');
-
-  // Wishlist clicks
-  $$('.fav-btn').forEach(btn => {
-    btn.onclick = (e) => {
-      e.stopPropagation();
-      const id = +btn.dataset.fav;
-      if (wishlist.has(id)) {
-        wishlist.delete(id);
-        showToast('Removed from Saved Items');
-      } else {
-        wishlist.add(id);
-        showToast('Added to Saved Items ❤️');
-      }
-      localStorage.setItem('uniloop_saved', JSON.stringify([...wishlist]));
-      $('#wishCount').textContent = wishlist.size;
-      renderProducts();
-    };
-  });
 }
 
-/* --- MODAL CONTROLLER --- */
-function openModal(contentHtml) {
-  $('#modalBody').innerHTML = contentHtml;
-  $('#mainModal').classList.add('active');
+/* --- WISHLIST --- */
+window.toggleWish = function(id) {
+  if (wishlist.has(id)) {
+    wishlist.delete(id);
+    showToast('Removed from Saved', '♡');
+  } else {
+    wishlist.add(id);
+    showToast('Saved to your Wishlist', '❤️');
+  }
+  localStorage.setItem('uniloop_saved', JSON.stringify([...wishlist]));
+  $('#wishCount').textContent = wishlist.size;
+  renderProducts();
+};
+
+/* --- QUICK SEARCH & TAGS --- */
+window.quickSearch = function(tag) {
+  $('#heroSearch').value = tag;
+  renderProducts();
+  location.hash = 'explore';
+};
+window.filterByTag = function(tag) {
+  $('#filterSpecial').value = tag;
+  renderProducts();
+  location.hash = 'explore';
+};
+
+/* --- MODAL UTILS --- */
+function openModal(html) {
+  $('#modalBody').innerHTML = html;
+  $('#modalOverlay').classList.add('active');
 }
 function closeModal() {
-  $('#mainModal').classList.remove('active');
+  $('#modalOverlay').classList.remove('active');
 }
 $('#modalClose').onclick = closeModal;
-$('#mainModal').onclick = (e) => {
-  if (e.target.id === 'mainModal') closeModal();
+$('#modalOverlay').onclick = (e) => {
+  if (e.target.id === 'modalOverlay') closeModal();
 };
 
 /* --- MAKE OFFER MODAL --- */
 window.openOfferModal = function(id) {
   const p = products.find(x => x.id === id);
-  activeProductForModal = p;
-
+  activeModalProduct = p;
   const o1 = Math.round(p.price * 0.9);
   const o2 = Math.round(p.price * 0.85);
 
   const html = `
-    <h2 style="font-size:22px; margin-bottom: 6px;">Make an Offer</h2>
-    <p style="color:var(--muted); font-size:13px; margin-bottom: 16px;">
+    <h2 style="font-size:22px; font-weight:800; margin-bottom:6px;">Make a Fast Offer</h2>
+    <p style="color:var(--ink-muted); font-size:13px; margin-bottom:16px;">
       Listing: <b>${p.name}</b> (Listed: ₹${p.price.toLocaleString('en-IN')})
     </p>
 
-    <div class="offer-chips">
-      <div class="offer-chip" onclick="setOfferValue(${o1}, this)">-10% (₹${o1})</div>
-      <div class="offer-chip" onclick="setOfferValue(${o2}, this)">-15% (₹${o2})</div>
-      <div class="offer-chip" onclick="setOfferValue(${p.price}, this)">Full Price</div>
+    <div style="display:flex; gap:8px; margin-bottom:16px;">
+      <button class="btn btn-outline" style="flex:1" onclick="$('#customOffer').value = ${o1}">-10% (₹${o1})</button>
+      <button class="btn btn-outline" style="flex:1" onclick="$('#customOffer').value = ${o2}">-15% (₹${o2})</button>
     </div>
 
-    <label style="font-size:12px; font-weight:700; color:var(--muted)">Your Custom Offer (₹)</label>
-    <input type="number" id="offerInput" value="${o1}" style="width:100%; padding:12px; border:1px solid var(--line); border-radius:10px; font-size:18px; font-weight:800; margin: 8px 0 16px; background:var(--surface); color:var(--ink);">
+    <label style="font-size:12px; font-weight:700; color:var(--ink-muted)">Your Counter Offer (₹)</label>
+    <input type="number" id="customOffer" value="${o1}" style="width:100%; padding:12px; border-radius:12px; border:1px solid var(--border); font-size:18px; font-weight:800; margin:6px 0 16px; background:var(--surface); color:var(--ink);">
 
-    <button class="btn btn-gold" style="width:100%; padding:14px; font-size:15px;" onclick="submitOffer()">Send Official Offer</button>
+    <button class="btn btn-gold" style="width:100%; padding:14px; justify-content:center;" onclick="sendOffer()">Send Offer to Seller</button>
   `;
   openModal(html);
 };
 
-window.setOfferValue = function(val, el) {
-  $('#offerInput').value = val;
-  $$('.offer-chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-};
-
-window.submitOffer = function() {
-  const val = $('#offerInput').value;
+window.sendOffer = function() {
+  const val = $('#customOffer').value;
   closeModal();
-  showToast(`Offer of ₹${Number(val).toLocaleString('en-IN')} sent to ${activeProductForModal.seller.name}! 🎉`);
+  showToast(`Offer of ₹${Number(val).toLocaleString('en-IN')} sent to ${activeModalProduct.seller.name}!`, '🎉');
 };
 
-/* --- CHAT MODAL --- */
+/* --- LIVE CHAT SIMULATOR --- */
 window.openChatModal = function(id) {
   const p = products.find(x => x.id === id);
-  activeProductForModal = p;
+  activeModalProduct = p;
 
   const html = `
-    <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
-      <span class="seller-avatar" style="width:36px; height:36px; font-size:16px;">${p.seller.name[0]}</span>
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+      <span class="seller-glow-avatar" style="width:36px; height:36px; font-size:16px;">${p.seller.name[0]}</span>
       <div>
-        <b style="display:block; font-size:14px;">${p.seller.name}</b>
-        <span style="font-size:11px; color:var(--green)">● Active in ${p.location}</span>
+        <b style="font-size:14px; display:block;">${p.seller.name}</b>
+        <span style="font-size:11px; color:var(--accent-green);">● Active in ${p.location}</span>
       </div>
     </div>
 
-    <div class="chat-container">
-      <div class="chat-messages" id="chatMsgs">
-        <div class="chat-bubble seller">
-          Hi! Yes, <b>${p.name}</b> is still available for handover around ${p.location}.
-        </div>
+    <div class="aesthetic-chat">
+      <div class="chat-stream" id="chatStream">
+        <div class="bubble seller">Hey! Yes, <b>${p.name}</b> is available for handover near ${p.location}.</div>
       </div>
-      <div class="quick-replies">
-        <span class="quick-chip" onclick="sendQuickChat('Can we meet at Uni-Mall?')">📍 Meet at Uni-Mall</span>
-        <span class="quick-chip" onclick="sendQuickChat('Is the price negotiable?')">💬 Negotiable?</span>
-        <span class="quick-chip" onclick="sendQuickChat('Can I test it before paying?')">🔍 Test first</span>
+      <div style="display:flex; gap:6px; padding:8px 12px; background:var(--surface); border-top:1px solid var(--border); overflow-x:auto;">
+        <span class="tag-chip" onclick="pushChat('Can we meet at Uni-Mall today?')">📍 Uni-Mall meetup</span>
+        <span class="tag-chip" onclick="pushChat('Is the price negotiable?')">💬 Negotiable?</span>
       </div>
-      <div class="chat-input-bar">
-        <input id="chatInput" placeholder="Type message to student seller...">
-        <button class="btn btn-primary" onclick="sendCustomChat()">Send</button>
+      <div style="display:flex; padding:8px; gap:8px; background:var(--surface); border-top:1px solid var(--border);">
+        <input id="chatBoxInput" placeholder="Type a message to peer..." style="flex:1; border:none; background:transparent; outline:none; font-family:inherit; font-size:13px; color:var(--ink);">
+        <button class="btn btn-gold" style="padding:6px 14px;" onclick="sendCustomChat()">Send</button>
       </div>
     </div>
   `;
   openModal(html);
 };
 
-window.sendQuickChat = function(txt) {
-  addChatMessage(txt, 'buyer');
+window.pushChat = function(txt) {
+  appendBubble(txt, 'me');
   setTimeout(() => {
-    addChatMessage('Sounds good! What time works best for you today?', 'seller');
-  }, 1000);
+    appendBubble('Sounds great! Let me know what time works best for you.', 'seller');
+  }, 900);
 };
 
 window.sendCustomChat = function() {
-  const input = $('#chatInput');
-  const val = input.value.trim();
-  if (!val) return;
-  addChatMessage(val, 'buyer');
+  const input = $('#chatBoxInput');
+  const txt = input.value.trim();
+  if (!txt) return;
+  appendBubble(txt, 'me');
   input.value = '';
   setTimeout(() => {
-    addChatMessage('Got your message. Let me know when you are nearby.', 'seller');
-  }, 1200);
+    appendBubble('Got your message. I am at the campus center right now.', 'seller');
+  }, 1000);
 };
 
-function addChatMessage(text, sender) {
-  const msgs = $('#chatMsgs');
-  if (!msgs) return;
-  const bubble = document.createElement('div');
-  bubble.className = `chat-bubble ${sender}`;
-  bubble.textContent = text;
-  msgs.appendChild(bubble);
-  msgs.scrollTop = msgs.scrollHeight;
+function appendBubble(txt, type) {
+  const stream = $('#chatStream');
+  if (!stream) return;
+  const b = document.createElement('div');
+  b.className = `bubble ${type}`;
+  b.textContent = txt;
+  stream.appendChild(b);
+  stream.scrollTop = stream.scrollHeight;
 }
 
-/* --- CREATE LISTING MODAL --- */
+/* --- POST LISTING MODAL --- */
 function openSellModal() {
   const html = `
-    <h2 style="font-size:22px; margin-bottom: 6px;">Sell on Campus</h2>
-    <p style="color:var(--muted); font-size:13px; margin-bottom:16px;">Instant visibility to thousands of verified students.</p>
+    <h2 style="font-size:22px; font-weight:800; margin-bottom:6px;">Sell on Campus</h2>
+    <p style="color:var(--ink-muted); font-size:13px; margin-bottom:16px;">Direct student visibility with zero platform commission.</p>
 
-    <label style="font-size:12px; font-weight:700; color:var(--muted)">Item Title</label>
-    <input id="sellTitle" placeholder="e.g. Casio fx-82MS or Montra cycle" style="width:100%; padding:10px; border:1px solid var(--line); border-radius:8px; margin: 4px 0 12px; background:var(--surface); color:var(--ink);">
+    <label style="font-size:12px; font-weight:700; color:var(--ink-muted)">Item Title</label>
+    <input id="newTitle" placeholder="e.g. Sony Headphones or Mechanical Drafter" style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--border); margin:4px 0 12px; background:var(--surface); color:var(--ink);">
 
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
       <div>
-        <label style="font-size:12px; font-weight:700; color:var(--muted)">Category</label>
-        <select id="sellCat" style="width:100%; padding:10px; border:1px solid var(--line); border-radius:8px; margin: 4px 0 12px; background:var(--surface); color:var(--ink);">
+        <label style="font-size:12px; font-weight:700; color:var(--ink-muted)">Category</label>
+        <select id="newCat" style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--border); margin:4px 0 12px; background:var(--surface); color:var(--ink);">
           ${categories.filter(c => c.name !== 'All').map(c => `<option>${c.name}</option>`).join('')}
         </select>
       </div>
       <div>
-        <label style="font-size:12px; font-weight:700; color:var(--muted)">Price (₹)</label>
-        <input type="number" id="sellPrice" placeholder="e.g. 1500" style="width:100%; padding:10px; border:1px solid var(--line); border-radius:8px; margin: 4px 0 12px; background:var(--surface); color:var(--ink);">
+        <label style="font-size:12px; font-weight:700; color:var(--ink-muted)">Price (₹)</label>
+        <input type="number" id="newPrice" placeholder="e.g. 1200" style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--border); margin:4px 0 12px; background:var(--surface); color:var(--ink);">
       </div>
     </div>
 
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-      <div>
-        <label style="font-size:12px; font-weight:700; color:var(--muted)">Condition</label>
-        <select id="sellCondition" style="width:100%; padding:10px; border:1px solid var(--line); border-radius:8px; margin: 4px 0 12px; background:var(--surface); color:var(--ink);">
-          <option>Brand New</option>
-          <option>Like New</option>
-          <option>Good</option>
-          <option>Used</option>
-        </select>
-      </div>
-      <div>
-        <label style="font-size:12px; font-weight:700; color:var(--muted)">Campus Location</label>
-        <select id="sellLocation" style="width:100%; padding:10px; border:1px solid var(--line); border-radius:8px; margin: 4px 0 12px; background:var(--surface); color:var(--ink);">
-          <option value="BH-1">Boys Hostel 1 & 2</option>
-          <option value="BH-4">Boys Hostel 4 & 5</option>
-          <option value="BH-7">Boys Hostel 7 & 8</option>
-          <option value="GH">Girls Hostels</option>
-          <option value="UniMall">Uni-Mall</option>
-          <option value="Block34">Block 34</option>
-        </select>
-      </div>
-    </div>
+    <label style="font-size:12px; font-weight:700; color:var(--ink-muted)">Upload Image (Optional)</label>
+    <input type="file" id="newImg" accept="image/*" style="width:100%; padding:8px; border-radius:10px; border:1px solid var(--border); margin:4px 0 16px; background:var(--surface); color:var(--ink);">
 
-    <label style="font-size:12px; font-weight:700; color:var(--muted)">Photo (Upload or auto-icon)</label>
-    <input type="file" id="sellPhoto" accept="image/*" style="width:100%; padding:8px; border:1px solid var(--line); border-radius:8px; margin: 4px 0 12px; background:var(--surface); color:var(--ink);">
-
-    <button class="btn btn-gold" style="width:100%; padding:12px; margin-top:8px; font-size:15px;" onclick="publishListing()">Post Listing Instantly</button>
+    <button class="btn btn-gold" style="width:100%; padding:14px; justify-content:center;" onclick="publishItem()">Publish Listing Instantly</button>
   `;
   openModal(html);
 }
 
-window.publishListing = function() {
-  const title = $('#sellTitle').value.trim();
-  const cat = $('#sellCat').value;
-  const price = +$('#sellPrice').value;
-  const cond = $('#sellCondition').value;
-  const loc = $('#sellLocation').value;
-  const fileInput = $('#sellPhoto');
+window.publishItem = function() {
+  const title = $('#newTitle').value.trim();
+  const cat = $('#newCat').value;
+  const price = +$('#newPrice').value;
+  const fileInput = $('#newImg');
 
   if (!title || !price) {
-    alert('Please enter a title and price');
+    alert('Please enter a title and valid price');
     return;
   }
 
-  const createItem = (imgData = null) => {
-    const newItem = {
+  const create = (imgData = null) => {
+    products.unshift({
       id: Date.now(),
       name: title,
       price: price,
       cat: cat,
       icon: '📦',
       img: imgData,
-      condition: cond,
-      location: loc,
+      condition: 'Like New',
+      location: 'BH-1',
       verified: true,
       urgent: false,
       seller: { name: 'You (Student)', rating: 5.0, branch: 'Campus Verified' },
-      desc: 'Recently posted listing.'
-    };
-    products.unshift(newItem);
+      desc: 'Just listed on UNI LOOP'
+    });
     closeModal();
     renderProducts();
-    showToast('Your item has been published on UNI LOOP! 🚀');
+    showToast('Your item is live across campus! 🚀', '⚡');
   };
 
   if (fileInput.files && fileInput.files[0]) {
-    const reader = new FileReader();
-    reader.onload = (e) => createItem(e.target.result);
-    reader.readAsDataURL(fileInput.files[0]);
+    const r = new FileReader();
+    r.onload = (e) => create(e.target.result);
+    r.readAsDataURL(fileInput.files[0]);
   } else {
-    createItem();
+    create();
   }
 };
 
-/* --- EVENT LISTENERS --- */
+/* --- EVENT HOOKS --- */
 $('#sellTopBtn').onclick = openSellModal;
 $('#dockSell').onclick = openSellModal;
+$('#heroSearchBtn').onclick = renderProducts;
 
-$('#notifBtn').onclick = () => {
-  $('#notifPopup').classList.toggle('active');
-  $('#notifCount').style.display = 'none';
-};
-
-$('#heroSearchBtn').onclick = () => {
-  $('#mainSearch').value = $('#heroSearch').value;
-  location.hash = 'explore';
-  renderProducts();
-};
-
-['mainSearch', 'filterCondition', 'filterVerified', 'sortBy', 'campusSelect'].forEach(id => {
+['heroSearch', 'filterCondition', 'filterSpecial', 'sortBy', 'campusSelect'].forEach(id => {
   $('#' + id).addEventListener('input', renderProducts);
 });
 
-$('#resetFilters').onclick = () => {
-  $('#mainSearch').value = '';
+$('#resetBtn').onclick = () => {
   $('#heroSearch').value = '';
   $('#filterCondition').value = 'all';
-  $('#filterVerified').value = 'all';
+  $('#filterSpecial').value = 'all';
   $('#sortBy').value = 'new';
   $('#campusSelect').value = 'all';
-  activeCategory = 'All';
+  activeCat = 'All';
   renderCategories();
   renderProducts();
-  showToast('Filters reset');
-};
-
-$('#viewAllListings').onclick = () => {
-  $('#resetFilters').click();
+  showToast('Filters reset', '✨');
 };
 
 $('#wishlistBtn').onclick = () => {
   if (wishlist.size === 0) {
-    showToast('Your saved wishlist is currently empty ♡');
+    showToast('Wishlist is empty ♡', '🔍');
     return;
   }
-  products = products.filter(p => wishlist.has(p.id));
+  products = initialProducts.filter(p => wishlist.has(p.id));
   renderProducts();
-  showToast(`Showing ${wishlist.size} saved listings`);
+  showToast(`Showing ${wishlist.size} saved items`, '❤️');
 };
-
 $('#dockSaved').onclick = () => $('#wishlistBtn').click();
-$('#dockChat').onclick = () => showToast('Select any product card to start a student chat!');
 
-/* --- INITIALIZATION --- */
+/* --- INIT --- */
 initTheme();
 $('#wishCount').textContent = wishlist.size;
 renderCategories();
