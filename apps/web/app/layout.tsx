@@ -8,6 +8,7 @@ import "./refinements.css";
 import "./journey.css";
 import "./auth-experience.css";
 import "./auth-v2.css";
+import "./heading-card-emphasis.css";
 import "./account-profile-spaceui.css";
 
 export const metadata:Metadata={
