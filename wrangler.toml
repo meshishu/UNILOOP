@@ -1,4 +1,4 @@
-﻿name = "uniloop"
+name = "uniloop"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
@@ -6,4 +6,4 @@ compatibility_flags = ["nodejs_compat"]
 directory = "apps/web/.next"
 
 [build]
-command = "pnpm install --frozen-lockfile && pnpm --filter @uniloop/web build"
+command = "pnpm install --frozen-lockfile && pnpm --filter @uniloop/web build && node scripts/clean-cache.mjs"
