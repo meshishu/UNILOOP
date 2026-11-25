@@ -8,6 +8,7 @@
     "build": "pnpm --filter @uniloop/web build",
     "lint": "pnpm --filter @uniloop/web lint",
     "typecheck": "pnpm --filter @uniloop/web typecheck",
-    "test": "pnpm --filter @uniloop/web test"
+    "test": "pnpm --filter @uniloop/web test",
+    "deploy": "wrangler deploy"
   }
 }
