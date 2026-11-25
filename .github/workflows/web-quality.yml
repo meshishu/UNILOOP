@@ -104,7 +104,8 @@ jobs:
       - name: Install PostgreSQL client
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq postgresql-client
+          sudo apt-get install -y -qq postgresql-client-16
+          echo "/usr/lib/postgresql/16/bin" >> "$GITHUB_PATH"
       - name: Setup disposable Supabase Auth fixtures
         run: psql -X -v ON_ERROR_STOP=1 -f supabase/tests/00_auth_fixture.sql
       - name: Apply identity migration
